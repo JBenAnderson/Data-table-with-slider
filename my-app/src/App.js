@@ -8,6 +8,7 @@ import {
   Code,
   Grid,
   theme,
+  Table,
   Thead,
   Tbody,
   Tfoot,
@@ -103,6 +104,10 @@ function App() {
                 ></RangeSliderThumb>
               </Tooltip>
             </RangeSlider>
+            <p>S&P 500 Returns</p>
+            <TableContainer>
+              <Table></Table>
+            </TableContainer>
           </Container>
         </Grid>
       </Box>

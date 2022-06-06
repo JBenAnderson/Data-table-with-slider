@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import JsonData from '../src/data/data.json';
 import {
   ChakraProvider,
   Box,
@@ -25,10 +26,15 @@ import {
   Container,
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
+
 //done with imports**********************************************
 
 function App() {
   const [limit, setLimit] = useState(0);
+
+  const onChange = val => {
+    setLimit(val);
+  };
   return (
     <ChakraProvider theme={theme}>
       <Box textAlign="center" fontSize="xl">
@@ -39,8 +45,8 @@ function App() {
               defaultValue={[1926, 2021]}
               colorScheme="blue"
               size="lg"
-              onChange="{}"
-              onChangeEnd="{}"
+              onChange={onChange}
+              onChangeEnd={onChange}
               min={1926}
               max={2021}
               step={1}
@@ -114,6 +120,14 @@ function App() {
                     <Th>Cumulative Return</Th>
                   </Tr>
                 </Thead>
+                <Tbody></Tbody>
+                <Tfoot>
+                  <Tr>
+                    <Th>Year</Th>
+                    <Th>Return</Th>
+                    <Th>Cumulative Return</Th>
+                  </Tr>
+                </Tfoot>
               </Table>
             </TableContainer>
           </Container>

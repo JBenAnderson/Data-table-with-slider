@@ -42,13 +42,13 @@ function App() {
           <ColorModeSwitcher justifySelf="flex-end" />
           <Container>
             <RangeSlider
-              defaultValue={[1926, 2021]}
+              defaultValue={[1926, 2022]}
               colorScheme="blue"
               size="lg"
               onChange={onChange}
               onChangeEnd={onChange}
               min={1926}
-              max={2021}
+              max={2022}
               step={1}
               width="600px"
               height="50px"

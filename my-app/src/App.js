@@ -110,9 +110,10 @@ function App() {
                 ></RangeSliderThumb>
               </Tooltip>
             </RangeSlider>
-            <p>S&P 500 Returns</p>
+
             <TableContainer>
               <Table variant="striped" colorScheme="teal">
+                <TableCaption placement="top">S&P 500 Returns</TableCaption>
                 <Thead>
                   <Tr>
                     <Th>Year</Th>
@@ -120,7 +121,19 @@ function App() {
                     <Th>Cumulative Return</Th>
                   </Tr>
                 </Thead>
-                <Tbody></Tbody>
+                <Tbody>
+                  {JsonData.map(info => {
+                    return (
+                      <>
+                        <Tr>
+                          <Td>{info.year}</Td>
+                          <Td>{info.totalReturn}</Td>
+                          <Td>{info.cumulativeReturn}</Td>
+                        </Tr>
+                      </>
+                    );
+                  }).reverse()}
+                </Tbody>
                 <Tfoot>
                   <Tr>
                     <Th>Year</Th>

@@ -106,7 +106,15 @@ function App() {
             </RangeSlider>
             <p>S&P 500 Returns</p>
             <TableContainer>
-              <Table></Table>
+              <Table variant="striped" colorScheme="teal">
+                <Thead>
+                  <Tr>
+                    <Th>Year</Th>
+                    <Th>Return</Th>
+                    <Th>Cumulative Return</Th>
+                  </Tr>
+                </Thead>
+              </Table>
             </TableContainer>
           </Container>
         </Grid>

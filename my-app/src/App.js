@@ -26,18 +26,49 @@ import {
   Container,
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
+import spIndexData from '../src/data/dataFormat';
 
 //done with imports**********************************************
 
-function App() {
+export default function App() {
   const [limit, setLimit] = useState(0);
+  const startDate = limit[0] || 1926;
+  const endDate = limit[1] || 2022;
+  let total = 0;
+  let i = 0;
+  let tempArr = [];
 
   const onChange = val => {
     setLimit(val);
   };
+
+  var resultData = JsonData.filter(a => {
+    var date = new Date(a.year);
+    return date >= startDate && date <= endDate;
+  });
+
+  var rangeSum = () => {
+    for (i = 0; i < resultData.length; i++) {
+      let obj = resultData[i];
+      let sum = parseFloat(obj.totalReturn);
+      console.log(sum);
+      tempArr.push(sum);
+      total += sum;
+    }
+    return (
+      <>
+        <Container className="totalContainer">
+          <div className="total">
+            <b style={{ color: '#66FF00' }}>{total.toFixed(2) + '%'}</b>
+          </div>
+        </Container>
+      </>
+    );
+  };
+
   return (
     <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl">
+      <Box textAlign="center" fontSize="xl" className="sliderBox">
         <Grid minH="100vh" p={3}>
           <ColorModeSwitcher justifySelf="flex-end" />
           <Container>
@@ -91,8 +122,8 @@ function App() {
                 border="1px solid gray"
                 color="black"
                 placement="bottom"
-                pl={3}
-                pr={3}
+                pl={1}
+                pr={1}
                 isOpen
               >
                 <RangeSliderThumb
@@ -114,6 +145,11 @@ function App() {
             <TableContainer>
               <Table variant="striped" colorScheme="teal">
                 <TableCaption placement="top">S&P 500 Returns</TableCaption>
+
+                <TableCaption placement="top">
+                  cumulative range return {`${startDate} to ${endDate}`}
+                  {rangeSum()}
+                </TableCaption>
                 <Thead>
                   <Tr>
                     <Th>Year</Th>
@@ -122,17 +158,19 @@ function App() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {JsonData.map(info => {
-                    return (
-                      <>
-                        <Tr>
-                          <Td>{info.year}</Td>
-                          <Td>{info.totalReturn}</Td>
-                          <Td>{info.cumulativeReturn}</Td>
-                        </Tr>
-                      </>
-                    );
-                  }).reverse()}
+                  {React.Children.toArray(
+                    JsonData.map(info => {
+                      return (
+                        <>
+                          <Tr>
+                            <Td>{info.year}</Td>
+                            <Td>{info.totalReturn}</Td>
+                            <Td>{info.cumulativeReturn}</Td>
+                          </Tr>
+                        </>
+                      );
+                    }).reverse()
+                  )}
                 </Tbody>
                 <Tfoot>
                   <Tr>
@@ -149,5 +187,3 @@ function App() {
     </ChakraProvider>
   );
 }
-
-export default App;

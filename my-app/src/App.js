@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import JsonData from '../src/data/data.json';
 import {
   ChakraProvider,
@@ -24,9 +24,16 @@ import {
   RangeSliderThumb,
   Tooltip,
   Container,
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  Divider,
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
-import spIndexData from '../src/data/dataFormat';
+import styles from '../src/index.css';
+//formatted data from dataFormat.js
+//import spIndexData from '../src/data/dataFormat';
 
 //done with imports**********************************************
 
@@ -42,16 +49,18 @@ export default function App() {
     setLimit(val);
   };
 
+  //filter through the start and end date data
   var resultData = JsonData.filter(a => {
     var date = new Date(a.year);
     return date >= startDate && date <= endDate;
   });
 
+  //calculate the cumulative return sum between the start and end dates
   var rangeSum = () => {
     for (i = 0; i < resultData.length; i++) {
       let obj = resultData[i];
       let sum = parseFloat(obj.totalReturn);
-      console.log(sum);
+
       tempArr.push(sum);
       total += sum;
     }
@@ -66,23 +75,35 @@ export default function App() {
     );
   };
 
+  // useEffect(() => {
+  //   const returnColor = document.querySelector('.totalReturn');
+  //   console.log(returnColor);
+  //   if (returnColor.includes('-')) {
+  //     returnColor.style.color = 'red';
+  //   } else {
+  //     returnColor.style.color = 'white';
+  //   }
+  // }, []);
+
   return (
     <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl" className="sliderBox">
+      <Box textAlign="center" fontSize="xl" className="parentBox">
         <Grid minH="100vh" p={3}>
           <ColorModeSwitcher justifySelf="flex-end" />
-          <Container>
+          <Container className="container">
+            <Text>S&P 500 Index</Text>
             <RangeSlider
               defaultValue={[1926, 2022]}
               colorScheme="blue"
               size="lg"
               onChange={onChange}
-              onChangeEnd={onChange}
+              onChangeEnd={e => resultData}
               min={1926}
               max={2022}
               step={1}
               width="600px"
               height="50px"
+              className="rangeSlider"
             >
               <RangeSliderTrack
                 height="20px"
@@ -141,15 +162,22 @@ export default function App() {
                 ></RangeSliderThumb>
               </Tooltip>
             </RangeSlider>
+            <Divider />
 
             <TableContainer>
               <Table variant="striped" colorScheme="teal">
-                <TableCaption placement="top">S&P 500 Returns</TableCaption>
-
                 <TableCaption placement="top">
-                  cumulative range return {`${startDate} to ${endDate}`}
-                  {rangeSum()}
+                  {/* cumulative return from year {`${startDate} to ${endDate}`}
+                  {rangeSum()} */}
+                  <Stat>
+                    <StatLabel>Cumulative Return Range</StatLabel>
+                    <StatHelpText></StatHelpText>
+                    <StatNumber>{rangeSum()}</StatNumber>
+
+                    <StatHelpText>{`${startDate} to ${endDate}`}</StatHelpText>
+                  </Stat>
                 </TableCaption>
+
                 <Thead>
                   <Tr>
                     <Th>Year</Th>
@@ -159,17 +187,21 @@ export default function App() {
                 </Thead>
                 <Tbody>
                   {React.Children.toArray(
-                    JsonData.map(info => {
-                      return (
-                        <>
-                          <Tr>
-                            <Td>{info.year}</Td>
-                            <Td>{info.totalReturn}</Td>
-                            <Td>{info.cumulativeReturn}</Td>
-                          </Tr>
-                        </>
-                      );
-                    }).reverse()
+                    resultData
+                      .map(info => {
+                        return (
+                          <>
+                            <Tr>
+                              <Td>{info.year}</Td>
+                              <Td className="totalReturn" id="totalReturn">
+                                {info.totalReturn}%
+                              </Td>
+                              <Td>{info.cumulativeReturn}%</Td>
+                            </Tr>
+                          </>
+                        );
+                      })
+                      .reverse()
                   )}
                 </Tbody>
                 <Tfoot>

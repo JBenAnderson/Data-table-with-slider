@@ -1,10 +1,11 @@
 # Data-table-with-slider
 
-/png/Screen Shot 2022-06-08 at 5.09.35 PM.png
+
 
 Single page create-react-app with integrated dynamic table and range slider.  This app utilizes json data from S&P 500 Index market data showing the years and returns since its inception in 1926 to present time in 2022.  
 
 
+<img width="1273" alt="Screen Shot 2022-06-08 at 5 09 35 PM" src="https://user-images.githubusercontent.com/62675858/172718903-ffd3af9e-aaba-4a4b-8b4b-45011d532133.png">
 
 
 Installation

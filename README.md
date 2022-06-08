@@ -30,7 +30,7 @@ Additional features to be done:
 Notes
 ----------------------------------------
 React table and slider from Chakra UI component library.  https://chakra-ui.com/
-Json Data from https://www.slickcharts.com/sp500/returns
+Data from https://www.slickcharts.com/sp500/returns
 
 License
 ----------------------------------------
